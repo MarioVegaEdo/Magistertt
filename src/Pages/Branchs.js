@@ -1,6 +1,8 @@
 import NavigationButtonPanel from '../Components/NavigationButtonPanel' 
-
+import {Link} from 'react-router-dom'
 const Home = () => {
+    const FORWARD = 'schedulesAndModalities'
+    const BACK = 'home'
     return(
         <div>
             <h1>title</h1>
@@ -32,10 +34,8 @@ const Home = () => {
                     <input id="branch" type="button" />
                 </div>
             </form>
-            <NavigationButtonPanel
-            forward=""
-            back=""
-            />        
+            <Link to='/direcction' >Direcction</Link>
+            <Link to='/home' >HOME</Link>
         </div>
     )
 }

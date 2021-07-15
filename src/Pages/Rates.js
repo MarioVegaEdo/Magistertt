@@ -1,5 +1,5 @@
 import NavigationButtonPanel from '../Components/NavigationButtonPanel' 
-
+import {Link} from 'react-router-dom'
 const Rates = () => {
     return(
         <div>
@@ -13,10 +13,8 @@ const Rates = () => {
                     <button></button>
                 </div>
             </form>
-            <NavigationButtonPanel
-            forward=""
-            back=""
-            />        
+            <Link to='/schendulesAndModalities' >schendulesAndModalities</Link>
+            <Link to='/personalInfo' >personalInfo</Link>       
         </div>
     )
 }

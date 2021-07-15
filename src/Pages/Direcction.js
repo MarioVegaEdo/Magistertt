@@ -1,5 +1,5 @@
 import NavigationButtonPanel from '../Components/NavigationButtonPanel' 
-
+import {Link} from 'react-router-dom'
 const Direcction = () => {
     return(
         <div>
@@ -38,14 +38,16 @@ const Direcction = () => {
                 <div id="formGroup" >
                     <div id="formRow">
                         <div id="formCol">
-                            <input id="legalInfo"type="checkbox" ><a></a></input>
+                            <input id="legalInfo"type="checkbox" ></input>
                         </div>
                         <div id="formCol">
-                            <input id="dataProt"type="checkbox" ><a></a></input>
+                            <input id="dataProt"type="checkbox" ></input>
                         </div>
                     </div>
                 </div>
             </form>
+            <Link to='/direcction' >Direcction</Link>
+            <Link to='/home' >HOME</Link>
             <NavigationButtonPanel
             forward=""
             back=""

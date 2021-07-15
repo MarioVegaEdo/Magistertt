@@ -24,6 +24,8 @@ const PaidMethod = () => {
                     </div>
                 </div>
             </form>
+            <Link to='/endPage' >endPage</Link>
+            <Link to='/direcction' >Direcction</Link>
             <NavigationButtonPanel
             forward=""
             back=""
