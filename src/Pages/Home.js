@@ -1,11 +1,12 @@
 import NavigationButtonPanel from '../Components/NavigationButtonPanel' 
 import {messages} from '../StaticResources/messageProperties'
-import {Link, BrowserRouter, Route, Switch} from 'react-router-dom'
-import Branchs from './Branchs'
+import {Link} from 'react-router-dom'
 
 const Home = () => {
-    const FORWARD = 'branchs'
-    const BACK = 'web.magister.com'
+
+    const FORWARD = '/branchs'
+    const BACK = '/webMagister'
+
     return(
         <div>
             <img id="logoImg" />
@@ -13,7 +14,8 @@ const Home = () => {
             <span id="plainText">{messages.home_text}</span>
             <div>
             
-            <Link to='/branchs' >BranchsHome</Link>
+            <Link to={FORWARD} >{messages.navbutton_start}</Link>
+            <Link to={BACK} >{messages.navbutton_back}</Link>
             </div>
             {/*<NavigationButtonPanel
                 forward={FORWARD}

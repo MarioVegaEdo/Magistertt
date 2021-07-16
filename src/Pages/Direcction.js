@@ -48,10 +48,7 @@ const Direcction = () => {
             </form>
             <Link to='/direcction' >Direcction</Link>
             <Link to='/home' >HOME</Link>
-            <NavigationButtonPanel
-            forward=""
-            back=""
-            />        
+       
         </div>
     )
 }

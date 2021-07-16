@@ -2,20 +2,20 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import {useFirestore, useFirebaseApp} from 'reactfire'
 
-import {useEffect} from 'react'
 
-const firebase = useFirebaseApp();
- const refFire = useFirestore();
-  useEffect(() =>{
+export const simpleCall = (refFire,table) => {
+    
     const datav = refFire
-    .collection('enrollments').where('anteriority', '==', 'No')
+    .collection(table)
     .onSnapshot((snapshot) =>{
       const total = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
-      console.log(total)
-      console.log('ª')
+      
+     console.log(total)
       return () =>datav()
+      //return total
     })
-  },[refFire])
+
+}

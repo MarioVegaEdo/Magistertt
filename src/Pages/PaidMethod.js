@@ -1,6 +1,16 @@
 import NavigationButtonPanel from '../Components/NavigationButtonPanel' 
+import {Link} from 'react-router-dom'
+import {useFirestore, useFirebaseApp} from 'reactfire'
 
 const PaidMethod = () => {
+    const refFire = useFirestore();
+    const saveOnFirebase = () =>{
+        refFire.collection('enrollments').add({
+                    saludo:'hola',
+                    despedida:('adios')
+                })
+        }
+
     return(
         <div>
             <h1 id="title">title</h1>

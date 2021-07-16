@@ -23,6 +23,10 @@ function App() {
         <Route path={'/personalInfo'} component={PersonalInfo} />
         <Route path={'/direcction'} component={Direcction} />
         <Route path={'/paidMethod'} component={PaidMethod} />
+        <Route path={'/webMagister'} component={() =>{
+          window.location.href = 'https://web.magister.com'
+          return null
+        }}/>
       </Switch>
       
       </BrowserRouter>
