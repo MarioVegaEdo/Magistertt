@@ -1,5 +1,6 @@
 import NavigationButtonPanel from '../Components/NavigationButtonPanel' 
 
+
 import {Link} from 'react-router-dom'
 import {messages} from '../StaticResources/messageProperties'
 import React,{useEffect, useState} from 'react'
@@ -8,7 +9,9 @@ import {useFirestore, useFirebaseApp} from 'reactfire'
 
 const Branchs = () => {
     const FORWARD = '/schedulesAndModalities'
-    const BACK = '/home'
+    const BACK = '/index'
+    const CONDITIONS_AL = '/conditionsAl'
+    const CONDITIONS_MATERIAL = '/conditionsMaterial'
 
     const queryTables1 = 'branchs'
     const queryTables2 = 'provinces'
@@ -114,7 +117,7 @@ const Branchs = () => {
                 </div>
                 <div id="formRow">
                     <label id="titleLabel">{messages.branchs_remind_title}</label>
-                    <a>{messages.branchs_remind_link}</a>
+                    <Link to={CONDITIONS_AL} >{messages.branchs_remind_link}</Link>
                     <div id="buttonPanel">
                         <div id="radioCol">
                             <input onChange={onChangeRadio} type="radio" id="no" name="remindRadio" value="No" required/>
@@ -132,7 +135,7 @@ const Branchs = () => {
                 </div>
                 <div id="formRow"> 
                     <label id="titleLabel">{messages.branchs_material_title}</label>
-                    <a>{messages.branchs_material_link}</a>
+                    <Link to={CONDITIONS_MATERIAL} >{messages.branchs_material_link}</Link>
                     <button onClick={onClickMaterialButton} id="materialButton">{messages.branchs_material_button}</button>
                 </div>
             </form>

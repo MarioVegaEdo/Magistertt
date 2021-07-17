@@ -1,29 +1,50 @@
 import './App.css';
 import NavigationTree from './Components/NavigationTree'
-import Home from './Pages/Home'
+import Index from './Pages/Index'
 import Branchs from './Pages/Branchs'
 import SchedulesAndModalities from './Pages/SchedulesAndModalities'
 import Rates from './Pages/Rates'
 import PersonalInfo from './Pages/PersonalInfo'
-import Direcction from './Pages/Direcction'
+import Direction from './Pages/Direction'
 import PaidMethod from './Pages/PaidMethod'
 import {BrowserRouter, Route,Switch} from 'react-router-dom'
+import EndPage from './Pages/EndPage';
 
 function App() {
   
   return (
     <div>
-      {/*<NavigationTree />*/}
       <BrowserRouter>
       <Switch>
-        <Route exact path={['/home','/']} component={Home} />
+        <Route exact path={['/index','/']} component={Index} />
         <Route path={'/branchs'} component={Branchs} />
         <Route path={'/schedulesAndModalities'} component={SchedulesAndModalities} />
         <Route path={'/rates'} component={Rates} />
         <Route path={'/personalInfo'} component={PersonalInfo} />
-        <Route path={'/direcction'} component={Direcction} />
+        <Route path={'/direction'} component={Direction} />
         <Route path={'/paidMethod'} component={PaidMethod} />
+        <Route path={'/endPage'} component={EndPage} />
         <Route path={'/webMagister'} component={() =>{
+          window.location.href = 'https://web.magister.com'
+          return null
+        }}/>
+           <Route path={'/conditionsMaterial'} component={() =>{
+          window.location.href = 'https://web.magister.com'
+          return null
+        }}/>
+        <Route path={'/conditionsAl'} component={() =>{
+          window.location.href = 'https://web.magister.com'
+          return null
+        }}/>
+        <Route path={'/dataPro'} component={() =>{
+          window.location.href = 'https://web.magister.com'
+          return null
+        }}/>
+        <Route path={'/legalInfo'} component={() =>{
+          window.location.href = 'https://web.magister.com'
+          return null
+        }}/>
+         <Route path={'/paidDetails'} component={() =>{
           window.location.href = 'https://web.magister.com'
           return null
         }}/>
