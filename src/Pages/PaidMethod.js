@@ -1,8 +1,7 @@
 import {Link} from 'react-router-dom'
 import {messages} from '../StaticResources/messageProperties'
-import React,{useEffect, useState} from 'react'
-import {simpleCall} from '../Firebase/FirebaseCalls/simpleCall'
-import {useFirestore, useFirebaseApp} from 'reactfire'
+import {useState} from 'react'
+import NavigationButtonPanel from '../Components/NavigationButtonPanel' 
 
 const PaidMethod = () => {
 
@@ -10,10 +9,7 @@ const PaidMethod = () => {
     const BACK = '/direction'
     const DETAILS = '/paisDetails'
     const LEGALINFO = '/legalInfo'
-
-    const refFire = useFirestore();
    
-
     const [paidMethod, setPaidMethod] = useState('');
     const [recommended, setRecommended] = useState('');
 
@@ -68,9 +64,13 @@ const PaidMethod = () => {
                     </div>
                 </div>
             </form>
-            <Link to={FORWARD} onClick={saveSessionInfo}>{messages.navbutton_forward}</Link>
-            <Link to={BACK} >{messages.navbutton_back}</Link>
-                    
+            <NavigationButtonPanel
+                 action={saveSessionInfo}
+                 forwardPath={FORWARD}
+                 forwardText={messages.navbutton_forward}
+                 backPath={BACK}
+                 backText={messages.navbutton_back}
+            />       
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import {messages} from '../StaticResources/messageProperties'
-import {Link} from 'react-router-dom'
-import {useFirestore, useFirebaseApp} from 'reactfire'
+import NavigationButtonPanel from '../Components/NavigationButtonPanel' 
+import {useFirestore} from 'reactfire'
 
 const EndPage = () => {
 
@@ -41,8 +41,13 @@ const EndPage = () => {
             <img id="logoImg" />
             <h1 id="title">{messages.endPage_title}</h1>
             <span id="plainText">{messages.endPage_title}</span>
-            <Link to={FORWARD} onClick={saveOnFirebase} >{messages.navbutton_return_home}</Link>
-            <Link to={BACK} >{messages.navbutton_back}</Link>      
+            <NavigationButtonPanel
+                 action={saveOnFirebase}
+                 forwardPath={FORWARD}
+                 forwardText={messages.navbutton_return_home}
+                 backPath={BACK}
+                 backText={messages.navbutton_back}
+            />
         </div>
     )
 }

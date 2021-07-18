@@ -1,8 +1,8 @@
 import NavigationButtonPanel from '../Components/NavigationButtonPanel'
-import { Link } from 'react-router-dom'
 import { messages } from '../StaticResources/messageProperties'
 import React, { useEffect, useState } from 'react'
-import { useFirestore, useFirebaseApp } from 'reactfire'
+import { useFirestore} from 'reactfire'
+import {Link} from 'react-router-dom'
 
 const SchedulesAndModalities = () => {
 
@@ -13,6 +13,9 @@ const SchedulesAndModalities = () => {
     const queryTables2 = 'schendules'
 
     const refFire = useFirestore();
+
+    let schenduleRequired = false
+    let modalityRequired = false
 
     const [modalitiesArray, setModalitiesArray] = useState();
     const [schendulesArray, setSchendulesArray] = useState();
@@ -53,11 +56,35 @@ const SchedulesAndModalities = () => {
         console.log(modality)
     }
 
-    const saveSessionInfo = () => {
-        sessionStorage.setItem('modality', modality);
-        sessionStorage.setItem('schendule', schendule);
-        console.log(sessionStorage)
+    const saveSessionInfo = (event) => {
+        let completeData = requiredValidation()
+
+
+        if(completeData){
+            sessionStorage.setItem('modality', modality);
+            sessionStorage.setItem('schendule', schendule);
+            console.log(sessionStorage)
+            console.log('sss',sessionStorage)
+          }else{
+            event.preventDefault()
+          }
+        
+        
     }
+
+    const requiredValidation = () =>{
+        if(schendule == ''){
+            schenduleRequired = true
+        }
+        if(modality == ''){
+            modalityRequired = true
+        }
+        if(modalityRequired == true || schenduleRequired == true){
+          return false
+        }else{
+          return true
+        }
+      }
 
     return (
         <div>
@@ -66,14 +93,14 @@ const SchedulesAndModalities = () => {
                 <div id="formGroup">
                     <label id="titleLabel">{messages.schedulesAndModalities_modality}</label>
                     <label>{messages.form_select_option}</label>
-                    <div id="buttonPanel">
+                    <div className="radio-toolbar" id="buttonPanel">
                         <div id="radioRow">
                         { modalitiesArray  &&(
                             <div>
                                 {modalitiesArray.map(option =>(
                                     <div>
-                                        <input  key={option.id} onChange={onChangeRadio} type="radio" name="modalityRadio" value={option.modality_name} required />
-                                        <label>{option.modality_name}</label>   
+                                        <input  key={option.id} onChange={onChangeRadio} id={option.id} type="radio" name="modalityRadio" value={option.modality_name} required />
+                                        <label for={option.id}>{option.modality_name}</label>   
                                     </div>
                                 ))}
                             </div>
@@ -92,9 +119,13 @@ const SchedulesAndModalities = () => {
                     </div>
                 </div>
             </form>
-            <Link to={FORWARD} onClick={saveSessionInfo}>{messages.navbutton_forward}</Link>
-            <Link to={BACK} >{messages.navbutton_back}</Link>
-            
+            <NavigationButtonPanel
+                 action={saveSessionInfo}
+                 forwardPath={FORWARD}
+                 forwardText={messages.navbutton_forward}
+                 backPath={BACK}
+                 backText={messages.navbutton_back}
+            />
         </div>
     )
 }

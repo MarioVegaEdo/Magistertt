@@ -1,11 +1,8 @@
 import NavigationButtonPanel from '../Components/NavigationButtonPanel' 
-
-
 import {Link} from 'react-router-dom'
 import {messages} from '../StaticResources/messageProperties'
 import React,{useEffect, useState} from 'react'
-import {simpleCall} from '../Firebase/FirebaseCalls/simpleCall'
-import {useFirestore, useFirebaseApp} from 'reactfire'
+import {useFirestore} from 'reactfire'
 
 const Branchs = () => {
     const FORWARD = '/schedulesAndModalities'
@@ -23,7 +20,10 @@ const Branchs = () => {
     const [branch, setBranch] = useState('');
     const [province, setProvince] = useState('');
     const [anteriority, setAnteriority] = useState('');
-    
+    const [branchRequired, setBranchRequired] = useState();
+    const [provinceRequired, setProvinceRequired] = useState();
+    const [anteriorityRequired, setAnteriorityRequired] = useState();
+
 
   useEffect(() =>{
     fireStoreCallBranchs(queryTables1)
@@ -60,12 +60,20 @@ const Branchs = () => {
         console.log(provinceArray)
       }
 
-      const saveSessionInfo = () => { 
-        sessionStorage.setItem('branch', branch);
-        sessionStorage.setItem('province', province);
-        sessionStorage.setItem('anteriority', anteriority);
-        sessionStorage.setItem('material', 'value');
-        console.log(sessionStorage)
+      const saveSessionInfo = (event) => { 
+        let completeData = requiredValidation()
+
+        if(completeData === true){
+          sessionStorage.setItem('branch', branch);
+          sessionStorage.setItem('province', province);
+          sessionStorage.setItem('anteriority', anteriority);
+          sessionStorage.setItem('material', 'value');
+          console.log(sessionStorage)
+        }else{
+          console.log('prevent',branchRequired)
+          event.preventDefault()
+        }
+        
       }
 
       const onChangeSelectBranch = (event) =>{
@@ -83,19 +91,70 @@ const Branchs = () => {
             console.log(anteriority)
         }
 
+      const requiredValidation = () =>{
+
+          console.log('AGUNA VACIA')
+        if(branch == '' || typeof branch == 'undefined'){
+          setBranchRequired(true)
+          console.log('1 branch vacía')
+          console.log('1b',branch)
+        }else{
+          setBranchRequired(false)
+          console.log('2 branch tiene valor')
+          console.log('2b',branch)
+        }
+
+        if(province == '' || typeof province == 'undefined'){
+          setProvinceRequired(true)
+          console.log('1 province vacía')
+          console.log('1b',province)
+        }else{
+          setProvinceRequired(false)
+          console.log('2 province tiene valor')
+          console.log('2b',province)
+        }
+
+        if(anteriority == '' || typeof anteriority == 'undefined'){
+          setAnteriorityRequired(true)
+          console.log('1 anteriority vacía')
+          console.log('1b',anteriority)
+        }else{
+          setAnteriorityRequired(false)
+          console.log('2 anteriority tiene valor')
+          console.log('2b',anteriority)
+        }
+
+        if((typeof branch == 'undefined' || branch =='') ||
+        (typeof province == 'undefined' || province =='') ||
+        (typeof anteriority == 'undefined' || anteriority =='')
+        ){
+          console.log('AGUNA VACIA')
+          return false
+          
+        }else{console.log('Todo bien')
+        return true
+        }
+        
+      }
+
     return(
         <div>
             <h1>{messages.branchs_title}</h1>
             <form id="form">
                 <div id="formGroup">
                     <div id="formCol">
+                      {branchRequired === true &&(
+                        <div>
+                          falta este crack
+                        </div>
+                      )}
                         <label id="titleLabel">{messages.branchs_branch_title}</label>
                         <label>{messages.form_select_option}</label>                      
                         { branchArray  &&(
                             <select value={branch} onChange={onChangeSelectBranch} required placeholder="Ej: Maestros - Audición y lenguaje" >
                                 <option></option>
                                 {branchArray.map(option =>(
-                                    <option key={option.id}>{option.branch_name}</option>
+                                    <option key={option.id} value={option.branch_name}>{option.branch_name}</option>
                                 ))}
                             </select>
                         )
@@ -139,9 +198,14 @@ const Branchs = () => {
                     <button onClick={onClickMaterialButton} id="materialButton">{messages.branchs_material_button}</button>
                 </div>
             </form>
-            <Link to={FORWARD} onClick={saveSessionInfo}>{messages.navbutton_forward}</Link>
-            <Link to={BACK} >{messages.navbutton_back}</Link>
-        </div>
+            <NavigationButtonPanel
+                 action={saveSessionInfo}
+                 forwardPath={FORWARD}
+                 forwardText={messages.navbutton_forward}
+                 backPath={BACK}
+                 backText={messages.navbutton_back}
+            />
+            </div>
     )
 }
 

@@ -1,8 +1,7 @@
 import {Link} from 'react-router-dom'
 import {messages} from '../StaticResources/messageProperties'
 import React,{useEffect, useState} from 'react'
-import {simpleCall} from '../Firebase/FirebaseCalls/simpleCall'
-import {useFirestore, useFirebaseApp} from 'reactfire'
+import NavigationButtonPanel from '../Components/NavigationButtonPanel' 
 
 const PersonalInfo = () => {
 
@@ -73,9 +72,14 @@ const PersonalInfo = () => {
                     </div>
                 </div>
             </form>
-            <Link to={FORWARD} onClick={saveSessionInfo}>{messages.navbutton_forward}</Link>
-            <Link to={BACK} >{messages.navbutton_back}</Link>
-        </div>
+            <NavigationButtonPanel
+                 action={saveSessionInfo}
+                 forwardPath={FORWARD}
+                 forwardText={messages.navbutton_forward}
+                 backPath={BACK}
+                 backText={messages.navbutton_back}
+            />
+            </div>
     )
 }
 

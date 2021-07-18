@@ -1,6 +1,6 @@
 import React,{Suspense} from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './StaticResources/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import firebaseConfig from './Firebase/firebase-config';
