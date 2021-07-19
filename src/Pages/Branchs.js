@@ -1,4 +1,5 @@
 import NavigationButtonPanel from '../Components/NavigationButtonPanel' 
+import Warning from '../Components/Warning'
 import {Link} from 'react-router-dom'
 import {messages} from '../StaticResources/messageProperties'
 import React,{useEffect, useState} from 'react'
@@ -70,7 +71,6 @@ const Branchs = () => {
           sessionStorage.setItem('material', 'value');
           console.log(sessionStorage)
         }else{
-          console.log('prevent',branchRequired)
           event.preventDefault()
         }
         
@@ -93,119 +93,126 @@ const Branchs = () => {
 
       const requiredValidation = () =>{
 
-          console.log('AGUNA VACIA')
+          
         if(branch == '' || typeof branch == 'undefined'){
           setBranchRequired(true)
-          console.log('1 branch vacía')
-          console.log('1b',branch)
         }else{
           setBranchRequired(false)
-          console.log('2 branch tiene valor')
-          console.log('2b',branch)
         }
 
         if(province == '' || typeof province == 'undefined'){
           setProvinceRequired(true)
-          console.log('1 province vacía')
-          console.log('1b',province)
         }else{
           setProvinceRequired(false)
-          console.log('2 province tiene valor')
-          console.log('2b',province)
         }
 
         if(anteriority == '' || typeof anteriority == 'undefined'){
           setAnteriorityRequired(true)
-          console.log('1 anteriority vacía')
-          console.log('1b',anteriority)
         }else{
           setAnteriorityRequired(false)
-          console.log('2 anteriority tiene valor')
-          console.log('2b',anteriority)
         }
 
         if((typeof branch == 'undefined' || branch =='') ||
         (typeof province == 'undefined' || province =='') ||
         (typeof anteriority == 'undefined' || anteriority =='')
         ){
-          console.log('AGUNA VACIA')
           return false
           
-        }else{console.log('Todo bien')
+        }else{
         return true
         }
         
       }
 
     return(
-        <div>
-            <h1>{messages.branchs_title}</h1>
-            <form id="form">
-                <div id="formGroup">
-                    <div id="formCol">
-                      {branchRequired === true &&(
-                        <div>
-                          falta este crack
-                        </div>
+        <div className="flexContainerH">
+          <div id="pagesImg" className="flexItemH"></div>
+          <div id="pagesContainer" className="flexItemH">
+          <h1 id="title" className="pageTitle">{messages.branchs_title}</h1>
+          <form id="form" className="sizeForm">
+            <div className="formContainer flexContainerV">
+              <div className="formContainerH25  flexContainerH " id="formGroup">
+                  <div className="flexContainerV selectSizeW50  paddin5">
+                    {branchRequired === true &&(
+                       <Warning 
+                       value={messages.branchs_branch_title}
+                     />
+                    )}
+                    <div className="flexItemV flexContainerV">
+                      <label className="flexItemV" id="titleLabel">{messages.branchs_branch_title}</label>
+                      <label className="flexItemV" id="optionLabel">{messages.form_select_option}</label>                      
+                      { branchArray  &&(
+                        <select className="flexItemV" value={branch} onChange={onChangeSelectBranch} required placeholder="Ej: Maestros - Audición y lenguaje" >
+                          <option></option>
+                          {branchArray.map(option =>(
+                            <option key={option.id} value={option.branch_name}>{option.branch_name}</option>
+                          ))}
+                        </select>
                       )}
-                        <label id="titleLabel">{messages.branchs_branch_title}</label>
-                        <label>{messages.form_select_option}</label>                      
-                        { branchArray  &&(
-                            <select value={branch} onChange={onChangeSelectBranch} required placeholder="Ej: Maestros - Audición y lenguaje" >
-                                <option></option>
-                                {branchArray.map(option =>(
-                                    <option key={option.id} value={option.branch_name}>{option.branch_name}</option>
-                                ))}
-                            </select>
-                        )
-                        }
                     </div>
-                    <div id="formCol">
-                        <label id="titleLabel">{messages.branchs_province_title}</label>
-                        <label>{messages.form_select_option}</label>
-                        { provinceArray  &&(
-                            <select value={province} onChange={onChangeSelectProvince} required placeholder="Ej: Madrid" >
-                                <option></option>
-                                {provinceArray.map(option =>(
-                                    <option key={option.id}>{option.province_name}</option>
-                                ))}
-                            </select>
-                        )
-                        }
-                    </div>
+                  </div>
+                  <div className="flexContainerV selectSizeW50 paddin5">
+                    {provinceRequired === true &&(
+                      <Warning 
+                      value={messages.branchs_province_title}
+                    />
+                    )}
+                    <div className="flexItemV flexContainerV" >
+                      <label id="titleLabel" ClassName="flexItemV">{messages.branchs_province_title}</label>
+                      <label id="optionLabel" ClassName="flexItemV">{messages.form_select_option}</label>
+                      { provinceArray  &&(
+                        <select className="flexItemV" value={province} onChange={onChangeSelectProvince} required placeholder="Ej: Madrid" >
+                          <option></option>
+                          {provinceArray.map(option =>(
+                            <option key={option.id}>{option.province_name}</option>
+                          ))}
+                        </select>
+                      )}
+                      </div>
+                  </div>
+              </div>
+              
+              <div className="formContainerH25  flexContainerV " id="formGroup">
+              {anteriorityRequired === true &&(
+                      <Warning 
+                      value={messages.branchs_material_title}
+                    />
+                    )}
+                <label id="titleLabel" ClassName="flexItemV">{messages.branchs_remind_title}</label>
+                <Link to={CONDITIONS_AL} ClassName="flexItemV">{messages.branchs_remind_link}</Link>
+                <div className="flexContainerH flexItemV " id="buttonPanel">
+                  <div  className="flexItemH33 radio-toolbar">
+                    <input onChange={onChangeRadio} type="radio" id="no" name="remindRadio" value="No" />
+                    <label id="radioLabel" for="no">{messages.branchs_remind_radio1}</label>
+                  </div>
+                  <div className="flexItemH33 radio-toolbar">
+                    <input onChange={onChangeRadio} type="radio" id="si" name="remindRadio" value="Si"/>
+                    <label id="radioLabel" for="si">{messages.branchs_remind_radio2}</label>
+                  </div>
+                  <div className="flexItemH radio-toolbar">
+                    <input onChange={onChangeRadio} type="radio" id="2017" name="remindRadio" value="2017"/>
+                    <label id="radioLabel" for="2017">{messages.branchs_remind_radio3}</label>
+                  </div>
+                </div>   
+              </div>
+              <div className="flexContainerH flexItemV" id="formGroup">
+                <div className="flexContainerV" >
+                  <label ClassName="flexItemV" id="titleLabel">{messages.branchs_material_title}</label>
+                  <Link ClassName="flexItemV" to={CONDITIONS_MATERIAL} >{messages.branchs_material_link}</Link>
+                  <button ClassName="flexItemV" onClick={onClickMaterialButton} id="materialButton">{messages.branchs_material_button}</button>
                 </div>
-                <div id="formRow">
-                    <label id="titleLabel">{messages.branchs_remind_title}</label>
-                    <Link to={CONDITIONS_AL} >{messages.branchs_remind_link}</Link>
-                    <div id="buttonPanel">
-                        <div id="radioCol">
-                            <input onChange={onChangeRadio} type="radio" id="no" name="remindRadio" value="No" required/>
-                            <label id="radioLabel">{messages.branchs_remind_radio1}</label>
-                        </div>
-                        <div id="radioCol">
-                            <input onChange={onChangeRadio} type="radio" id="si" name="remindRadio" value="Si"/>
-                            <label id="radioLabel">{messages.branchs_remind_radio2}</label>
-                        </div>
-                        <div id="radioCol">
-                            <input onChange={onChangeRadio} type="radio" id="2017" name="remindRadio" value="2017"/>
-                            <label id="radioLabel">{messages.branchs_remind_radio3}</label>
-                        </div>
-                    </div>
-                </div>
-                <div id="formRow"> 
-                    <label id="titleLabel">{messages.branchs_material_title}</label>
-                    <Link to={CONDITIONS_MATERIAL} >{messages.branchs_material_link}</Link>
-                    <button onClick={onClickMaterialButton} id="materialButton">{messages.branchs_material_button}</button>
-                </div>
-            </form>
-            <NavigationButtonPanel
+              </div>
+            </div>
+          </form>
+          <NavigationButtonPanel
                  action={saveSessionInfo}
                  forwardPath={FORWARD}
                  forwardText={messages.navbutton_forward}
                  backPath={BACK}
                  backText={messages.navbutton_back}
-            />
-            </div>
+          />
+          </div>
+        </div>
     )
 }
 

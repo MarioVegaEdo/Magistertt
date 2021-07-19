@@ -2,7 +2,7 @@ import NavigationButtonPanel from '../Components/NavigationButtonPanel'
 import { messages } from '../StaticResources/messageProperties'
 import React, { useEffect, useState } from 'react'
 import { useFirestore} from 'reactfire'
-import {Link} from 'react-router-dom'
+import Warning from '../Components/Warning'
 
 const SchedulesAndModalities = () => {
 
@@ -10,17 +10,17 @@ const SchedulesAndModalities = () => {
     const BACK = '/branchs'
 
     const queryTables1 = 'modalities'
-    const queryTables2 = 'schendules'
+    const queryTables2 = 'schedules'
 
     const refFire = useFirestore();
-
-    let schenduleRequired = false
-    let modalityRequired = false
 
     const [modalitiesArray, setModalitiesArray] = useState();
     const [schendulesArray, setSchendulesArray] = useState();
     const [schendule, setSchendule] = useState('');
     const [modality, setModality] = useState('');
+    const [schenduleRequired, setSchenduleRequired] = useState();
+    const [modalityRequired, setModalityRequired] = useState();
+
 
     useEffect(() => {
         fireStoreCallModalities(queryTables1)
@@ -51,20 +51,24 @@ const SchedulesAndModalities = () => {
             })
     }
 
-    const onChangeRadio = (event) =>{
+    const onChangeRadioM = (event) =>{
         setModality(event.target.value)
         console.log(modality)
+    }
+
+    const onChangeRadioS = (event) =>{
+        setSchendule(event.target.value)
+        console.log(schendule)
     }
 
     const saveSessionInfo = (event) => {
         let completeData = requiredValidation()
 
 
-        if(completeData){
+        if(completeData === true){
             sessionStorage.setItem('modality', modality);
-            sessionStorage.setItem('schendule', schendule);
+            sessionStorage.setItem('schedule', schendule);
             console.log(sessionStorage)
-            console.log('sss',sessionStorage)
           }else{
             event.preventDefault()
           }
@@ -73,33 +77,48 @@ const SchedulesAndModalities = () => {
     }
 
     const requiredValidation = () =>{
-        if(schendule == ''){
-            schenduleRequired = true
-        }
-        if(modality == ''){
-            modalityRequired = true
-        }
-        if(modalityRequired == true || schenduleRequired == true){
-          return false
-        }else{
-          return true
-        }
+
+      if(schendule == '' || typeof schendule == 'undefined'){
+        setSchenduleRequired(true)
+      }else{
+        setSchenduleRequired(false)
       }
+
+      if(modality == '' || typeof modality == 'undefined'){
+        setModalityRequired(true)
+      }else{
+        setModalityRequired(false)
+      }
+      if((typeof schendule == 'undefined' || schendule =='') ||
+      (typeof modality == 'undefined' || modality =='') 
+      ){
+        return false
+        
+      }else{
+        return true
+      }
+      
+    }
 
     return (
         <div>
-            <h1 id="title">{messages.schedulesAndModalities_title}</h1>
-            <form id="form">
+            <h1 id="title" className="pageTitle">{messages.schedulesAndModalities_title}</h1>
+            <form id="form"  >
                 <div id="formGroup">
+                {modalityRequired === true &&(
+                    <Warning
+                     value={messages.schedulesAndModalities_modality}
+                    />
+                     )}
                     <label id="titleLabel">{messages.schedulesAndModalities_modality}</label>
-                    <label>{messages.form_select_option}</label>
+                    <label id="optionLabel">{messages.form_select_option}</label>
                     <div className="radio-toolbar" id="buttonPanel">
                         <div id="radioRow">
                         { modalitiesArray  &&(
                             <div>
                                 {modalitiesArray.map(option =>(
                                     <div>
-                                        <input  key={option.id} onChange={onChangeRadio} id={option.id} type="radio" name="modalityRadio" value={option.modality_name} required />
+                                        <input  key={option.id} onChange={onChangeRadioM} id={option.id} type="radio" name="modalityRadio" value={option.modality_name} />
                                         <label for={option.id}>{option.modality_name}</label>   
                                     </div>
                                 ))}
@@ -110,13 +129,29 @@ const SchedulesAndModalities = () => {
                     </div>
                 </div>
                 <div id="formGroup">
+                {schenduleRequired === true &&(
+                    <Warning
+                    value={messages.schedulesAndModalities_schedules}
+                   />
+                     )}
                     <label id="titleLabel">{messages.schedulesAndModalities_schedules}</label>
-                    <label>{messages.form_select_option}</label>
-                    <div id="selectOptionPanel">
-                        <select></select>
-                        <select></select>
-                        <select></select>
+                    <label id="optionLabel">{messages.form_select_option}</label>
+                    <div className="radio-toolbar" id="buttonPanel">
+                        <div id="radioRow">
+                        { schendulesArray  &&(
+                            <div>
+                                {schendulesArray.map(option =>(
+                                    <div>
+                                        <input  key={option.id} onChange={onChangeRadioS} id={option.id} type="radio" name="schenduleRadio" value={option.schedule_dcp} />
+                                        <label for={option.id}>{option.schedule_dcp}</label>   
+                                    </div>
+                                ))}
+                            </div>
+                        )
+                        }
+                        </div>
                     </div>
+                    
                 </div>
             </form>
             <NavigationButtonPanel
